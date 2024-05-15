@@ -1,0 +1,15 @@
+-- monkey patch to disable roasting/boiling of anything except water
+
+arszi_campfire_roasting.foods = {
+  -- ["mutant_part_chimera_meat"]   = "meat_chimera",
+  -- ["mutant_part_psysucker_meat"] = "meat_psysucker",
+  -- ["mutant_part_krovosos_meat"]  = "meat_bloodsucker",
+  -- ["mutant_part_psevdodog_meat"] = "meat_pseudodog",
+  -- ["mutant_part_lurker_meat"]    = "meat_lurker",
+  -- ["mutant_part_boar_chop"]      = "meat_boar",
+  -- ["mutant_part_flesh_meat"]     = "meat_flesh",
+  -- ["mutant_part_dog_meat"]       = "meat_dog",
+  -- ["mutant_part_snork_hand"]     = "meat_snork",
+  -- ["mutant_part_tushkano_meat"]  = "meat_tushkano",
+  ["dirty_water"] = "boiled_water"
+}

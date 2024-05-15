@@ -1,0 +1,38 @@
+; these are default GAMMA values
+![flask]
+max_uses                = 3
+inv_weight              = 1.33
+empty_weight            = 0.329
+boost_time              = 31
+boost_radiation_restore = 0.00028
+eat_alcohol             = -0.079
+eat_satiety             = 0.066
+eat_sleepiness          = 0
+eat_thirstiness         = -2.98
+
+; 2/3 the benefits of clean water, half the rads of dirty water
+![dirty_water]
+max_uses                = 3
+inv_weight              = 1.33
+empty_weight            = 0.329
+eat_alcohol             = -0.026
+eat_satiety             = 0.022
+eat_sleepiness          = 0
+eat_thirstiness         = -0.99
+eat_radiation           = 0.0250
+
+; 1/3 the benefits of clean water, 3x the rads of orignal mod
+![boiled_water]
+max_uses                = 3
+inv_weight              = 1.33
+empty_weight            = 0.329
+eat_alcohol             = -0.053
+eat_satiety             = 0.044
+eat_sleepiness          = 0
+eat_thirstiness         = -1.99
+eat_radiation           = 0.0125
+
+; increase cost and fewer uses
+![purification_tablet]
+cost                    = 1316
+max_uses                = 3
