@@ -4,11 +4,11 @@
 local UICookOnCook = item_cooking.UICook.OnCook
 local size = item_cooking._size or 2
 
-item_cooking.UICook.OnCook = function(self)
+function item_cooking.UICook:OnCook()
   local meal = self:GetSelectedMeal()
   local isEmptyingFlask = false
 
-  for i = 1, 2 do
+  for i = 1, size do
     if not meal[i] then
       goto continue
     end
