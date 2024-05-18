@@ -1,0 +1,19 @@
+-- patch to fix cooking sound
+
+function arszi_campfire_roasting.use_roast(item)
+  if not can_use_campfire() then
+    return
+  end
+
+  local section = item:section()
+
+  if foods[section] then
+    if IsItem("multiuse", nil, item) then
+      manage_food(foods[section], item, item:get_remaining_uses())
+    else
+      manage_food(foods[section], item)
+    end
+  end
+
+  xr_effects.play_inv_cooking()
+end

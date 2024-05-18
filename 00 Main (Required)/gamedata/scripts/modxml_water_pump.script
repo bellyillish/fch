@@ -1,0 +1,28 @@
+function onReadMapSpots(xml_file_name, xml_obj)
+  if
+    xml_file_name ~= "ui\\map_spots.xml" and
+    xml_file_name ~= "ui\\map_spots_16.xml"
+  then
+    return
+  end
+
+  xml_obj:insertFromXMLString([[
+    <water_spot>
+      <level_map spot="water_spot_tex"/>
+      <mini_map spot="water_spot_mini_tex"/>
+    </water_spot>
+
+    <water_spot_tex width="12" height="12" alignment="c" stretch="1" scale="1" scale_min="1" scale_max="1.5" location_level="5">
+      <texture>ui_maid_water_spot</texture>
+    </water_spot_tex>
+
+    <water_spot_mini_tex width="16" height="16" alignment="c" stretch="1" scale="1" scale_min="1.25" scale_max="1.5" location_level="10">
+      <texture>ui_maid_water_spot</texture>
+    </water_spot_mini_tex>
+  ]])
+end
+
+
+function on_xml_read()
+  RegisterScriptCallback("on_xml_read", onReadMapSpots)
+end

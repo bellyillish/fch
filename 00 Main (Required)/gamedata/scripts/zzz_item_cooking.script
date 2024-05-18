@@ -1,0 +1,38 @@
+-- Monkey patch to create an empty canteen when cooking empties a flask
+-- NOTE: Patched method is in: zz_item_cooking_keep_crafting_window_open
+
+local UICookOnCook = item_cooking.UICook.OnCook
+local size = item_cooking._size or 2
+
+item_cooking.UICook.OnCook = function(self)
+  local meal = self:GetSelectedMeal()
+  local isEmptyingFlask = false
+
+  for i = 1, 2 do
+    if not meal[i] then
+      goto continue
+    end
+
+    local sec = meal[i].sec
+    local amt = meal[i].amt
+
+    if sec ~= "flask" then
+      goto continue
+    end
+
+    for id, uses in pairs(self.objs[sec]) do
+      if amt == uses then
+        isEmptyingFlask = true
+        break
+      end
+    end
+
+    ::continue::
+  end
+
+  UICookOnCook(self)
+
+  if isEmptyingFlask then
+    alife_create_item("empty_canteen", db.actor)
+  end
+end
