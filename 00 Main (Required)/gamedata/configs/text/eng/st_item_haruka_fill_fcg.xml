@@ -17,7 +17,7 @@
     %c[d_red] • %c[ui_gray_2] slow usage (dispersible tablets)\n
     </text>
   </string>
-  <string id="st_roast_all">
+  <string id="roast_all">
     <text>roast all</text>
   </string>
 </string_table>
