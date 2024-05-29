@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<string_table>
+  <string id="ui_mcm_menu_fcg">
+    <text>Fillable Canteens</text>
+  </string>
+
+  <string id="ui_mcm_fcg_subtitle">
+    <text>Inventory Icon Settings</text>
+  </string>
+
+  <string id="ui_mcm_fcg_useIndicators">
+    <text>Use Water Quality Indicators</text>
+  </string>
+
+  <string id="ui_mcm_fcg_useIndicators_desc">
+    <text>Adds colored indicators to canteen icons to indicate dirty (red), boiled (yellow), or purified (blue) water. You may want to disable this if you use another mod or icon pack that adds similar indicators.</text>
+  </string>
+
+  <string id="ui_mcm_fcg_useCamoIcons">
+    <text>Use Cammo-Style Canteen Icons</text>
+  </string>
+
+  <string id="ui_mcm_fcg_useCamoIcons_desc">
+    <text>Replaces the default icon texture for canteens with an alternate camo-styled one.</text>
+  </string>
+
+  <string id="ui_mcm_fcg_recolorTablets">
+    <text>Recolor Purification Tablets</text>
+  </string>
+
+  <string id="ui_mcm_fcg_recolorTablets_desc">
+    <text>Adjusts the color of the purification tablet bottle be more similar to canteens and less similar to other medication like Ibuprofen.</text>
+  </string>
+
+  <string id="st_dirty_water_descr">
+    <text>Flask filled with dirty water. You can make it somewhat safer to drink by boiling it.\n \n
+    %c[ui_gray_3]PROPERTIES:\n
+    %c[d_blue] • %c[ui_gray_2] drink\n
+    </text>
+  </string>
+
+  <string id="st_boiled_water_descr">
+    <text>Flask filled with boiled water. You can make it completely safe to drink using purifying tablets.\n \n
+    %c[ui_gray_3]PROPERTIES:\n
+    %c[d_blue] • %c[ui_gray_2] drink\n</text>
+  </string>
+
+  <string id="st_akvatab2_descr">
+    <text>Small bottle of tablets for purifying boiled water.\n \n
+    %c[ui_gray_3]PROPERTIES:\n
+    %c[d_red] • %c[ui_gray_2] slow usage (dispersible tablets)\n
+    </text>
+  </string>
+</string_table>
