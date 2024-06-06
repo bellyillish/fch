@@ -1,35 +1,51 @@
 <?xml version="1.0" encoding="windows-1251"?>
 <string_table>
-  <string id="ui_mcm_menu_fcg">
+  <string id="ui_mcm_menu_fch">
     <text>Fillable Canteens</text>
   </string>
 
-  <string id="ui_mcm_fcg_subtitle">
-    <text>Inventory Icon Settings</text>
+  <string id="ui_mcm_fch_inventory_subtitle">
+    <text>Inventory Settings</text>
   </string>
 
-  <string id="ui_mcm_fcg_useIndicators">
+  <string id="ui_mcm_fch_useIndicators">
     <text>Use Water Quality Indicators</text>
   </string>
 
-  <string id="ui_mcm_fcg_useIndicators_desc">
+  <string id="ui_mcm_fch_useIndicators_desc">
     <text>Adds colored indicators to canteen icons to indicate dirty (red), boiled (yellow), or purified (blue) water. You may want to disable this if you use another mod or icon pack that adds similar indicators.</text>
   </string>
 
-  <string id="ui_mcm_fcg_useCamoIcons">
+  <string id="ui_mcm_fch_useCamoIcons">
     <text>Use Cammo-Style Canteen Icons</text>
   </string>
 
-  <string id="ui_mcm_fcg_useCamoIcons_desc">
+  <string id="ui_mcm_fch_useCamoIcons_desc">
     <text>Replaces the default icon texture for canteens with an alternate camo-styled one.</text>
   </string>
 
-  <string id="ui_mcm_fcg_recolorTablets">
+  <string id="ui_mcm_fch_recolorTablets">
     <text>Recolor Purification Tablets</text>
   </string>
 
-  <string id="ui_mcm_fcg_recolorTablets_desc">
+  <string id="ui_mcm_fch_recolorTablets_desc">
     <text>Adjusts the color of the purification tablet bottle be more similar to canteens and less similar to other medication like Ibuprofen.</text>
+  </string>
+
+  <string id="ui_mcm_fch_traders_subtitle">
+    <text>Trader Settings</text>
+  </string>
+
+  <string id="ui_mcm_fch_limitTraderStock">
+    <text>Limit Trader Supply of Canteens and Tablets</text>
+  </string>
+
+  <string id="ui_mcm_fch_limitTraderStock_desc">
+    <text>Traders sell at most 1 purification tablet bottle at a time, and never sell canteens/flasks. (On tourist difficulty, they will sell 2 bottles and 1 flask).</text>
+  </string>
+
+  <string id="ui_mcm_fch_traders_note">
+    <text>NOTE: Changes to trader settings take effect the next time those traders restock.</text>
   </string>
 
   <string id="st_dirty_water_descr">

@@ -1,0 +1,72 @@
+USE_INDICATORS     = true
+USE_CAMO_ICONS     = false
+RECOLOR_TABLETS    = true
+LIMIT_TRADER_STOCK = true
+
+
+function on_mcm_load()
+  return {
+    id = "fch",
+    sh = true,
+    gr = {
+      {
+        id      = "title",
+        type    = "slide",
+        text    = "ui_mcm_menu_fch",
+        link    = "ui_options_slider_player",
+        size    = {512, 50},
+        spacing = 20,
+      },
+      {
+        id   = "subtitleInventory",
+        type = "desc",
+        text = "ui_mcm_fch_inventory_subtitle",
+        clr  = {255, 255, 255, 255},
+      },
+      {
+        val  = 1,
+        type = "check",
+        id   = "useIndicators",
+        hint = "fch_useIndicators",
+        def  = USE_INDICATORS,
+      },
+      {
+        val  = 1,
+        type = "check",
+        id   = "useCamoIcons",
+        hint = "fch_useCamoIcons",
+        def  = USE_CAMO_ICONS,
+      },
+      {
+        val  = 1,
+        type = "check",
+        id   = "recolorTablets",
+        hint = "fch_recolorTablets",
+        def  = RECOLOR_TABLETS,
+      },
+      {
+        id = "line",
+        type = "line",
+      },
+      {
+        type = "desc",
+        id   = "subtitleTraders",
+        text = "ui_mcm_fch_traders_subtitle",
+        clr  = {255, 255, 255, 255},
+      },
+      {
+        val  = 1,
+        type = "check",
+        id   = "limitTraderStock",
+        hint = "fch_limitTraderStock",
+        def  = LIMIT_TRADER_STOCK,
+      },
+      {
+        type = "desc",
+        id   = "noteTraders",
+        text = "ui_mcm_fch_traders_note",
+        clr  = {255, 112, 112, 112},
+      }
+    }
+  }
+end

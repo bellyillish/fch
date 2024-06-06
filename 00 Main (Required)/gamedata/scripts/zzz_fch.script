@@ -1,13 +1,12 @@
 ICON_OVERRIDES = {
   purification_tablet = {
-    mcmKey   = "fcg/recolorTablets",
-    texture  = "ui\\ui_canteens_fcg",
+    mcmKey   = "fch/recolorTablets",
+    texture  = "ui\\ui_canteens_fch",
     gridAxis = {200, 0, 250, 50},
   },
-
   flask = {
-    mcmKey   = "fcg/useCamoIcons",
-    texture  = "ui\\ui_canteens_fcg",
+    mcmKey   = "fch/useCamoIcons",
+    texture  = "ui\\ui_canteens_fch",
     gridAxis = {0, 0, 50, 50},
   },
 }
@@ -15,6 +14,13 @@ ICON_OVERRIDES = {
 ICON_OVERRIDES.dirty_water   = ICON_OVERRIDES.flask
 ICON_OVERRIDES.boiled_water  = ICON_OVERRIDES.flask
 ICON_OVERRIDES.empty_canteen = ICON_OVERRIDES.flask
+
+
+-- items per economy setting
+TRADER_STOCK_LIMITS = {
+  purification_tablet = {2, 1, 1},
+  flask = {1, 0, 0},
+}
 
 
 local unpack                  = unpack or table.unpack
@@ -132,7 +138,7 @@ end
 -- hide indicators
 function utils_ui.UICellItem:Add_Layers(xml, obj, sec, clsid)
   local hideIndicators = ICON_OVERRIDES[sec]
-    and not ui_mcm.get("fcg/useIndicators")
+    and not ui_mcm.get("fch/useIndicators")
     or  false
 
   UICellItemAddLayers(self, xml, obj, sec, clsid)
@@ -162,4 +168,42 @@ if arszi_campfire_roasting then
 
     xr_effects.play_inv_cooking()
   end
+end
+
+
+-- override trader stocks
+function limitTraderStock(npc)
+  if not ui_mcm.get("fch/limitTraderStock") then
+    return
+  end
+
+  local economyType = game_difficulties.get_eco_factor("type")
+  local itemCounts  = {}
+
+  npc:iterate_inventory(function(_, item)
+    local itemName = item:section()
+
+    if
+      not TRADER_STOCK_LIMITS[itemName]
+      or not TRADER_STOCK_LIMITS[itemName][economyType]
+    then
+      return
+    end
+
+    local itemLimit = TRADER_STOCK_LIMITS[itemName][economyType]
+
+    itemCounts[itemName] = itemCounts[itemName]
+      and itemCounts[itemName] + 1
+      or  1
+
+    if itemCounts[itemName] > itemLimit then
+      printf("TESTING %s over limit of %s, removing", itemName, itemLimit)
+      alife_release_id(item:id())
+    end
+  end)
+end
+
+
+function on_game_start()
+  RegisterScriptCallback("trader_on_restock", limitTraderStock)
 end
