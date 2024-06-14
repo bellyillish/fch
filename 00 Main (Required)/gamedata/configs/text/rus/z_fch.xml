@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<string_table>
+  <string id="ui_mcm_menu_fch">
+    <text>Наполняемые фляги</text>
+  </string>
+
+  <string id="ui_mcm_fch_inventory_subtitle">
+    <text>Настройки иконок</text>
+  </string>
+
+  <string id="ui_mcm_fch_useIndicators">
+    <text>Использовать индикаторы качества воды</text>
+  </string>
+
+  <string id="ui_mcm_fch_useIndicators_desc">
+    <text>Добавляет цветные индикаторы к иконкам фляг для обозначения грязной (красный), кипяченой (желтый) или очищенной (синий) воды. Вы можете отключить эту функцию, если используете другой мод или пак иконок, добавляющий подобные индикаторы.</text>
+  </string>
+
+  <string id="ui_mcm_fch_useCamoIcons">
+    <text>Использовать камфлированные иконки фляжек</text>
+  </string>
+
+  <string id="ui_mcm_fch_useCamoIcons_desc">
+    <text>Заменяет стандартную иконку фляги на другую, стилизованную под камуфляж.</text>
+  </string>
+
+  <string id="ui_mcm_fch_recolorTablets">
+    <text>Использовать перекрас очищающих таблеток</text>
+  </string>
+
+  <string id="ui_mcm_fch_recolorTablets_desc">
+    <text>Корректировка цвета упаковки очищающих таблеток, чтобы она была больше похожа на фляги и менее похожа на другие медикаменты, такие как Ибупрофен.</text>
+  </string>
+
+  <string id="ui_mcm_fch_traders_subtitle">
+    <text>Настройки торговли</text>
+  </string>
+
+  <string id="ui_mcm_fch_limitTraderStock">
+    <text>Ограничение ассортимента для фляг и очищающих таблеток</text>
+  </string>
+
+  <string id="ui_mcm_fch_limitTraderStock_desc">
+    <text>Торговцы продают не более 1 упаковки очищающих таблеток за раз и никогда не продают фляги.
+    (На сложности "Турист" они будут продавать 2 упаковки и 1 флягу).</text>
+  </string>
+
+  <string id="ui_mcm_fch_traders_note">
+    <text>ПРИМЕЧАНИЕ: Изменения станут действительны только к следующему пополнению ассортимента</text>
+  </string>
+
+  <string id="st_dirty_water_descr">
+    <text>Военная фляга, наполненная грязной водой. При желании можно сделать ее более безопасной для питья, прокипятив.\n \n
+    %c[ui_gray_3]ХАРАКТЕРИСТИКИ:\n
+		%c[d_blue] • %c[ui_gray_2] напиток\n</text>
+  </string>
+
+  <string id="st_boiled_water_descr">
+    <text>Военная фляга, наполненная кипяченой водой. При желании можно сделать ее полностью безопасной для питья, использовав очищающие таблетки.\n \n
+    %c[ui_gray_3]ХАРАКТЕРИСТИКИ:\n
+		%c[d_blue] • %c[ui_gray_2] напиток\n</text>
+  </string>
+
+  <string id="st_akvatab2_descr">
+    <text>Небольшой пластиковый пакетик с таблетками, предназначенный для обеззараживания воды.\n \n
+    %c[ui_gray_3]ХАРАКТЕРИСТИКИ:\n
+		%c[d_red] • %c[ui_gray_2] медленное применение (растворимые таблетки)\n
+    </text>
+  </string>
+</string_table>
