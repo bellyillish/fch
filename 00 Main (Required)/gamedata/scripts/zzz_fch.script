@@ -1,240 +1,201 @@
-ICON_OVERRIDES = {
-  purification_tablet = {
-    mcmKey   = "fch/recolorTablets",
-    texture  = "ui\\ui_canteens_fch",
-    gridAxis = {200, 0, 250, 50},
-  },
-  flask = {
-    mcmKey   = "fch/useCamoIcons",
-    texture  = "ui\\ui_canteens_fch",
-    gridAxis = {0, 0, 50, 50},
-  },
-}
+local Config  = fch_config
+local Functor = custom_functor_autoinject
 
-ICON_OVERRIDES.dirty_water   = ICON_OVERRIDES.flask
-ICON_OVERRIDES.boiled_water  = ICON_OVERRIDES.flask
-ICON_OVERRIDES.empty_canteen = ICON_OVERRIDES.flask
-
--- items per economy setting
-TRADER_STOCK_LIMITS = {
-  purification_tablet = {2, 1, 1},
-  flask = {1, 0, 0},
-}
-
-local dirtyWaterMinUses = 1
-local dirtyWaterMaxUses = 5
-
--- runtime state for createEmptyCanteen
-CREATE_CANTEEN = false
+local __alife_create_item    = _G.alife_create_item
+local __on_cook              = item_cooking.UICook.OnCook
+local __bind_item_drag_drop  = bind_item.on_item_drag_dropped
+local __cell_item_add_icon   = utils_ui.UICellItem.Add_Icon
+local __cell_item_add_shadow = utils_ui.UICellItem.Add_Shadow
+local __cell_item_add_layers = utils_ui.UICellItem.Add_Layers
 
 
-local unpack                  = unpack or table.unpack
-local GAlifeCreateItem        = _G.alife_create_item
-local UICellItemAddIcon       = utils_ui.UICellItem.Add_Icon
-local UICellItemAddShadow     = utils_ui.UICellItem.Add_Shadow
-local UICellItemAddLayers     = utils_ui.UICellItem.Add_Layers
-local UtilsXMLGetIconsTexture = utils_xml.get_icons_texture
-local UtilsXMLGetItemAxis     = utils_xml.get_item_axis
-local UICookOnCook            = item_cooking.UICook.OnCook
-local ingredientCount         = item_cooking._size or 2
+-- tracks if despawning should generate a canteen
+local CREATE_CANTEEN = false
 
 
-function shouldApplyFlaskIcon(section)
-  local flaskTexture = SYS_GetParam(0, "flask", "icons_texture")
-  return
-    (section == "dirty_water"
+-- if other water types should use AlphaLion's "flask" icon
+function shouldUseFlaskIcon(section)
+  local texture = SYS_GetParam(0, "flask", "icons_texture")
+
+  if texture ~= "ui\\AlphaLion\\ui_FoodDrinks" then
+    return false
+  end
+
+  return false
+    or section == "dirty_water"
     or section == "boiled_water"
-    or section == "empty_canteen")
-    and flaskTexture == "ui\\AlphaLion\\ui_FoodDrinks"
+    or section == "empty_canteen"
 end
 
 
--- override the texture
-function utils_ui.UICellItem:Add_Icon(sec, w, h)
-  local override = ICON_OVERRIDES[sec]
+function refreshInventory()
+	local inventory = GetActorMenu()
 
-  -- not a canteen or tablets
-  if override == nil then
-    return UICellItemAddIcon(self, sec, w, h)
+  if not inventory then
+    return
   end
 
-  function utils_xml.get_icons_texture(section)
-    -- replace with CAMO texture
+  inventory:UnHighlight_All()
+  inventory:UpdateItems()
+end
+
+
+-- icons
+function utils_ui.UICellItem:Add_Icon(section, w, h)
+  local override = Config.iconOverrides[section]
+
+  if override == nil then
+    return __cell_item_add_icon(self, section, w, h)
+  end
+
+  local __get_icons_texture = utils_xml.get_icons_texture
+  local __get_item_axis     = utils_xml.get_item_axis
+
+  -- override icon
+  function utils_xml.get_icons_texture(sec)
     if ui_mcm.get(override.mcmKey) then
       return override.texture
     end
 
-    -- replace with AlphaLion's flask texture
-    if shouldApplyFlaskIcon(section) then
-      return UtilsXMLGetIconsTexture("flask")
+    if shouldUseFlaskIcon(sec) then
+      return __get_icons_texture("flask")
     end
 
-    -- default behavior
-    return UtilsXMLGetIconsTexture(section)
+    return __get_icons_texture(sec)
   end
 
-  function utils_xml.get_item_axis(section, gridSize, unpacked)
-    -- replace with camo grid config
+  -- override grid x, y
+  function utils_xml.get_item_axis(sec, gridSize, unpacked)
     if ui_mcm.get(override.mcmKey) then
       return unpack(override.gridAxis)
     end
 
-    -- replace with AlphaLion's flask grid config
-    if shouldApplyFlaskIcon(section) then
-      return UtilsXMLGetItemAxis("flask", gridSize, unpacked)
+    if shouldUseFlaskIcon(sec) then
+      return __get_item_axis("flask", gridSize, unpacked)
     end
 
-    -- default behavior
-    return UtilsXMLGetItemAxis(section, gridSize, unpacked)
+    return __get_item_axis(sec, gridSize, unpacked)
   end
 
-  UICellItemAddIcon(self, sec, w, h)
+  __cell_item_add_icon(self, section, w, h)
 
   -- undo monkey patches
-  utils_xml.get_icons_texture = UtilsXMLGetIconsTexture
-  utils_xml.get_item_axis     = UtilsXMLGetItemAxis
+  utils_xml.get_icons_texture = __get_icons_texture
+  utils_xml.get_item_axis     = __get_item_axis
 end
 
 
--- override the texture
-function utils_ui.UICellItem:Add_Shadow(sec, w, h)
-  local override = ICON_OVERRIDES[sec]
+-- icon shadows
+function utils_ui.UICellItem:Add_Shadow(section, w, h)
+  local override = Config.iconOverrides[section]
 
-  -- not a canteen or tablets
   if override == nil then
-    return UICellItemAddShadow(self, sec, w, h)
+    return __cell_item_add_shadow(self, section, w, h)
   end
 
-  function utils_xml.get_icons_texture(section)
-    -- replace with CAMO texture
+  local __get_icons_texture = utils_xml.get_icons_texture
+  local __get_item_axis     = utils_xml.get_item_axis
+
+  -- override shadow
+  function utils_xml.get_icons_texture(sec)
     if ui_mcm.get(override.mcmKey) then
       return override.texture
     end
 
-    -- replace with AlphaLion's flask texture
-    if shouldApplyFlaskIcon(section) then
-      return UtilsXMLGetIconsTexture("flask")
+    if shouldUseFlaskIcon(sec) then
+      return __get_icons_texture("flask")
     end
 
-    -- default behavior
-    return UtilsXMLGetIconsTexture(section)
+    return __get_icons_texture(sec)
   end
 
-  function utils_xml.get_item_axis(section, gridSize, unpacked)
-    -- replace with camo grid config
+  -- override shadow grid x, y
+  function utils_xml.get_item_axis(sec, gridSize, unpacked)
     if ui_mcm.get(override.mcmKey) then
       return unpack(override.gridAxis)
     end
 
-    -- replace with AlphaLion's flask grid config
-    if shouldApplyFlaskIcon(section) then
-      return UtilsXMLGetItemAxis("flask", gridSize, unpacked)
+    if shouldUseFlaskIcon(sec) then
+      return __get_item_axis("flask", gridSize, unpacked)
     end
 
-    -- default behavior
-    return UtilsXMLGetItemAxis(section, gridSize, unpacked)
+    return __get_item_axis(sec, gridSize, unpacked)
   end
 
-  UICellItemAddShadow(self, sec, w, h)
+  __cell_item_add_shadow(self, section, w, h)
 
   -- undo monkey patches
-  utils_xml.get_icons_texture = UtilsXMLGetIconsTexture
-  utils_xml.get_item_axis     = UtilsXMLGetItemAxis
+  utils_xml.get_icons_texture = __get_icons_texture
+  utils_xml.get_item_axis     = __get_item_axis
 end
 
 
--- hide indicators
-function utils_ui.UICellItem:Add_Layers(xml, obj, sec, clsid)
-  local hideIndicators = ICON_OVERRIDES[sec]
+-- icon indicators
+function utils_ui.UICellItem:Add_Layers(xml, item, section, clsid)
+  local hideIndicators = Config.iconOverrides[section]
     and not ui_mcm.get("fch/useIndicators")
     or  false
 
-  UICellItemAddLayers(self, xml, obj, sec, clsid)
+  __cell_item_add_layers(self, xml, item, section, clsid)
 
-  if hideIndicators and self.layer[1] ~= nil then
+  if hideIndicators and self.layer and self.layer[1] then
     self.layer[1]:Show(false)
   end
 end
 
 
--- override cooking sound for campfire roasting
-if arszi_campfire_roasting then
-  function arszi_campfire_roasting.use_roast(item)
-    if not can_use_campfire() then
-      return
-    end
-
-    local section = item:section()
-
-    if foods[section] then
-      if IsItem("multiuse", nil, item) then
-        manage_food(foods[section], item, item:get_remaining_uses())
-      else
-        manage_food(foods[section], item)
-      end
-    end
-
-    xr_effects.play_inv_cooking()
-  end
-end
-
-
--- override trader stocks
-function limitTraderStock(npc)
-  if not ui_mcm.get("fch/limitTraderStock") then
+-- limit trader stocks
+function onTraderRestock(npc)
+  if not ui_mcm.get("fch/onTraderRestock") then
     return
   end
 
-  local economyType = game_difficulties.get_eco_factor("type")
-  local itemCounts  = {}
+  local economy = game_difficulties.get_eco_factor("type")
+  local counts  = {}
 
   npc:iterate_inventory(function(_, item)
-    local itemName = item:section()
+    local name   = item:section()
+    local limits = Config.traderLimits[name]
 
-    if
-      not TRADER_STOCK_LIMITS[itemName]
-      or not TRADER_STOCK_LIMITS[itemName][economyType]
-    then
+    if not (limits and limits[economy]) then
       return
     end
 
-    local itemLimit = TRADER_STOCK_LIMITS[itemName][economyType]
-
-    itemCounts[itemName] = itemCounts[itemName]
-      and itemCounts[itemName] + 1
+    counts[name] = counts[name]
+      and counts[name] + 1
       or  1
 
-    if itemCounts[itemName] > itemLimit then
-      printf("TESTING %s over limit of %s, removing", itemName, itemLimit)
+    -- despawn if over the limit
+    if counts[name] > limits[economy] then
       alife_release_id(item:id())
     end
   end)
 end
 
 
--- consume 1-5 uses of dirty water depending on what's in user's inventory
-function OnBoilWater(self)
+-- boil up to max_uses of dirty water
+function boilWater(self)
+  local maxUses = SYS_GetParam(2, "dirty_water", "max_uses")
+  local minUses = 1
+
   local meal = self:GetSelectedMeal()
 
   local dirtyWaterIndex = nil
   local usesToConsume   = 0
 
-  for i = 1, ingredientCount do
+  for i = 1, (item_cooking._size or 2) do
     if not meal[i] then
       goto continue
     end
 
-    local sec = meal[i].sec
-    local amt = meal[i].amt
-
-    if sec ~= "dirty_water" then
+    if meal[i].sec ~= "dirty_water" then
       goto continue
     end
 
     dirtyWaterIndex = 1
 
-    for id, uses in pairs(self.objs[sec]) do
-      usesToConsume = math.min(usesToConsume + uses, dirtyWaterMaxUses)
+    for id, uses in pairs(self.objs[meal[i].sec]) do
+      usesToConsume = math.min(usesToConsume + uses, maxUses)
     end
 
     ::continue::
@@ -245,7 +206,7 @@ function OnBoilWater(self)
 
     function _G.alife_create_item(s, o, t)
       if s ~= "boiled_water" then
-        return GAlifeCreateItem(s, o, t)
+        return __alife_create_item(s, o, t)
       end
 
       if not t then
@@ -253,71 +214,295 @@ function OnBoilWater(self)
       end
 
       t.uses = usesToConsume
-      GAlifeCreateItem(s, o, t)
+      __alife_create_item(s, o, t)
 
-      meal[dirtyWaterIndex].amt = dirtyWaterMinUses
-      _G.alife_create_item = GAlifeCreateItem
+      meal[dirtyWaterIndex].amt = minUses
+      _G.alife_create_item = __alife_create_item
     end
   end
 
-  UICookOnCook(self)
+  __on_cook(self)
 end
 
 
--- create an empty canteen when cooking uses a flask
+-- boil or set flag to create canteen
 function item_cooking.UICook:OnCook()
   local meal = self:GetSelectedMeal()
-
   if not meal then
     return
   end
 
   if meal.sec == "boiled_water" then
-    return OnBoilWater(self)
+    return boilWater(self)
   end
 
-
   CREATE_CANTEEN = true
-  UICookOnCook(self)
+  __on_cook(self)
   CREATE_CANTEEN = false
 end
 
 
--- create empty canteen on autostack
-if zatura_autostack then
-  local OriginalAutostack = zatura_autostack.autostack_playerinv
+-- only allow boiled water to be purified
+if haruka_fill and haruka_fill.on_item_drag_dropped and haruka_fill.find_object then
+  function haruka_fill.on_item_drag_dropped(drag, drop)
+    local parent1 = drag:parent()
+    local parent2 = drop:parent()
 
-  function zatura_autostack.autostack_playerinv()
-    CREATE_CANTEEN = true
-    OriginalAutostack()
-    CREATE_CANTEEN = false
+    if not parent1 or parent1:id() ~= db.actor:id() then
+      return
+    end
+    if not parent2 or parent2:id() ~= db.actor:id() then
+      return
+    end
+
+    local tablet = haruka_fill.find_object({drag, drop}, "purification_tablet")
+    local boiled = haruka_fill.find_object({drag, drop}, "boiled_water")
+
+    if not (tablet and boiled) then
+      return
+    end
+
+    alife_create_item("flask", db.actor, {uses = boiled:get_remaining_uses()})
+
+    alife_release(boiled)
+    utils_item.discharge(tablet, 1)
   end
 end
 
 
-function createEmptyCanteen(object)
+-- create empty canteen if flag set
+function onServerEntityUnegister(item)
   if not CREATE_CANTEEN then
     return
   end
 
-  local section = object:section_name()
+  local section = item:section_name()
 
-  if
-    section == "flask"
-    or section == "dirty_water"
-    or section == "boiled_water"
-  then
+  if section == "flask" or section == "dirty_water" or section == "boiled_water" then
     alife_create_item("empty_canteen", db.actor)
   end
 end
 
 
-function on_game_start()
-  RegisterScriptCallback("trader_on_restock", limitTraderStock)
-  RegisterScriptCallback("server_entity_on_unregister", createEmptyCanteen)
+-- set flag on manual drag and drop
+function bind_item.on_item_drag_dropped(drag, drop, from, to)
+  CREATE_CANTEEN = true
+  __bind_item_drag_drop(drag, drop, from, to)
+  CREATE_CANTEEN = false
+end
 
+
+-- set flag when auto stacking
+if zatura_autostack and zatura_autostack.autostack_playerinv then
+  local __autostack_playerinv = zatura_autostack.autostack_playerinv
+
+  function zatura_autostack.autostack_playerinv()
+    CREATE_CANTEEN = true
+    __autostack_playerinv()
+    CREATE_CANTEEN = false
+  end
+end
+
+
+-- roasting
+if arszi_campfire_roasting then
+  function canRoastAll(item)
+    local showType = ui_mcm.get("fch/roastAll")
+
+    if showType == "never" then
+      return false
+    end
+
+    local campfire = bind_campfire.get_nearby_campfire(Config.maxCampfireDistance)
+    if not campfire then
+      return false
+    end
+
+    if not arszi_campfire_roasting.foods[item:section()] then
+      return false
+    end
+
+    if showType == "always" then
+      return true
+    end
+
+    local itemCount = 0
+
+    db.actor:iterate_inventory(function (owner, otherItem)
+      if item:section() == otherItem:section() then
+        itemCount = itemCount + 1
+        if itemCount > 1 then
+          return true
+        end
+      end
+    end)
+
+    return itemCount > 1
+  end
+
+  -- replace roast sound
+  function useRoast(item)
+    local __play_inv_cooking_stove = xr_effects.play_inv_cooking_stove
+
+    function xr_effects.play_inv_cooking_stove()
+      if item:section() == "dirty_water" then
+        Config.boilSound:play(db.actor, 0, sound_object.s2d)
+      else
+        Config.roastSound:play(db.actor, 0, sound_object.s2d)
+      end
+    end
+
+    arszi_campfire_roasting.use_roast(item)
+    xr_effects.play_inv_cooking_stove = __play_inv_cooking_stove
+  end
+
+  -- replace roast all sound
+  function useRoastAll(item)
+    local __play_item_fx = actor_effects.play_item_fx
+
+    function actor_effects.play_item_fx()
+      if item:section() == "dirty_water" then
+        Config.boilSound:play(db.actor, 0, sound_object.s2d)
+      else
+        Config.roastSound:play(db.actor, 0, sound_object.s2d)
+      end
+    end
+
+    arszi_campfire_roasting.use_roast_all(item)
+    actor_effects.play_item_fx = __play_item_fx
+  end
+
+  -- re-apply functors
+  Functor.remove_functor("haruka_roast")
+  Functor.remove_functor("haruka_roast_all")
+
+  Functor.add_functor("xharuka_roast",
+    arszi_campfire_roasting.roast_condition_function,
+    arszi_campfire_roasting.roast_name_function,
+    nil,
+    useRoast
+  )
+
+  Functor.add_functor("xharuka_roast_all",
+    canRoastAll,
+    arszi_campfire_roasting.roast_all_name_function,
+    nil,
+    useRoastAll
+  )
+end
+
+
+-- "empty" menu item check
+function canEmpty(item)
+  local parent  = item:parent()
+  local section = item:section()
+
+  if not parent or parent:id() ~= db.actor:id() then
+    return false
+  end
+
+  if not Config.waterItems[section] then
+    return false
+  end
+
+  if item:get_remaining_uses() < 1 then
+    return false
+  end
+
+  return true
+end
+
+
+-- "empty all" menu item check
+function canEmptyAll(item)
+  local showType = ui_mcm.get("fch/emptyAll")
+
+  if showType == "never" then
+    return false
+  end
+
+  if not canEmpty(item) then
+    return false
+  end
+
+  if showType == "always" then
+    return true
+  end
+
+  local itemCount = 0
+
+  db.actor:iterate_inventory(function(owner, otherItem)
+    if item:section() == otherItem:section() then
+      itemCount = itemCount + 1
+      if itemCount > 1 then
+        return true
+      end
+    end
+  end, db.actor)
+
+  return itemCount > 1
+end
+
+
+-- "empty" menu item action
+function empty(item)
+  local uses = item:get_remaining_uses()
+
+  CREATE_CANTEEN = true
+  alife_release(item)
+  CREATE_CANTEEN = false
+
+  Config.emptySound:play(db.actor, 0, sound_object.s2d)
+  refreshInventory()
+end
+
+
+-- "empty all" menu item action
+function emptyAll(item)
+  db.actor:iterate_inventory(function(owner, otherItem)
+    if item:section() == otherItem:section() then
+      CREATE_CANTEEN = true
+      alife_release(otherItem)
+      CREATE_CANTEEN = false
+    end
+  end, db.actor)
+
+  Config.emptySound:play(db.actor, 0, sound_object.s2d)
+  refreshInventory()
+end
+
+
+Functor.add_functor("fch_empty",
+  canEmpty,
+  function() return game.translate_string("st_empty") end,
+  nil,
+  empty
+)
+
+Functor.add_functor("fch_empty_all",
+  canEmptyAll,
+  function() return game.translate_string("st_empty_all") end,
+  nil,
+  emptyAll
+)
+
+
+-- fix bug in "bind_water_pump_furniture"
+if bind_water_pump_furniture and bind_water_pump_furniture.placeable_pump_binder_wrapper then
+  function bind_water_pump_furniture.placeable_pump_binder_wrapper:net_destroy()
+    -- replace "id" with "self.object:id()"" and switch line order
+    level.map_remove_object_spot(self.object:id(), "water_spot")
+    bind_hf_base.hf_binder_wrapper.net_destroy(self)
+  end
+end
+
+
+function on_game_start()
+  RegisterScriptCallback("trader_on_restock", onTraderRestock)
+  RegisterScriptCallback("server_entity_on_unregister", onServerEntityUnegister)
+
+  -- also check on hide so empty canteens show
   if zatura_autostack then
-    -- check autostack on hide as well so empty canteens show
     RegisterScriptCallback("GUI_on_hide", zatura_autostack.GUI_on_show)
   end
 end

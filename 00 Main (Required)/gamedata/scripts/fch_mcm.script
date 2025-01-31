@@ -50,6 +50,38 @@ function on_mcm_load()
       },
       {
         type = "desc",
+        id   = "subtitleMenu",
+        text = "ui_mcm_fch_menu_subtitle",
+        clr  = {255, 255, 255, 255},
+      },
+      {
+        id   = "roastAll",
+        type = ui_mcm.kb_mod_list,
+        val  = 0,
+        def  = "never",
+        content = {
+          {"never", "never"},
+          {"always", "always"},
+          {"multiple", "multiple"},
+        }
+      },
+      {
+        id   = "emptyAll",
+        type = ui_mcm.kb_mod_list,
+        val  = 0,
+        def  = "never",
+        content = {
+          {"never", "never"},
+          {"always", "always"},
+          {"multiple", "multiple"},
+        }
+      },
+      {
+        id = "line",
+        type = "line",
+      },
+      {
+        type = "desc",
         id   = "subtitleTraders",
         text = "ui_mcm_fch_traders_subtitle",
         clr  = {255, 255, 255, 255},

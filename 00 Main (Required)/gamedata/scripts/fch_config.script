@@ -1,0 +1,38 @@
+-- icon settings that get applied depending on MCM options
+iconOverrides = {
+  purification_tablet = {
+    mcmKey   = "fch/recolorTablets",
+    texture  = "ui\\ui_canteens_fch",
+    gridAxis = {200, 0, 250, 50},
+  },
+  flask = {
+    mcmKey   = "fch/useCamoIcons",
+    texture  = "ui\\ui_canteens_fch",
+    gridAxis = {0, 0, 50, 50},
+  },
+}
+
+iconOverrides.dirty_water   = iconOverrides.flask
+iconOverrides.boiled_water  = iconOverrides.flask
+iconOverrides.empty_canteen = iconOverrides.flask
+
+-- items to treat as flasks of water
+waterItems = {
+  flask        = true,
+  dirty_water  = true,
+  boiled_water = true,
+}
+
+-- max trader stock per economy level when restocking
+traderLimits = {
+  purification_tablet = {2, 1, 1},
+  flask               = {1, 0, 0},
+}
+
+-- sounds
+boilSound  = sound_object("fillable_canteens\\boiling_water")
+emptySound = sound_object("fillable_canteens\\empty_water")
+roastSound = sound_object("fillable_canteens\\roasting")
+
+-- max distance from fire to roast (squared)
+maxCampfireDistance = 10
