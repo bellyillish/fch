@@ -1,5 +1,9 @@
--- NOTE: this is identical to the one in Ledge Grabbing
--- it is included to prevent Fillable Canteens from overwriting it
+--
+-- NOTE: this is the latest version from GitHub as of 1/30/25, and the version
+-- that ships with Ledge Grabbing. It is included because Fillable Canteens 2.0
+-- ships with an older version that I don't want to overwrite Ledge Grabbing's
+-- version in GAMMA.
+--
 
 local enable_debug = false
 local print_tip = function(s, ...)

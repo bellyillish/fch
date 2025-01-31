@@ -32,6 +32,38 @@
     <text>Корректировка цвета упаковки очищающих таблеток, чтобы она была больше похожа на фляги и менее похожа на другие медикаменты, такие как Ибупрофен.</text>
   </string>
 
+  <string id="ui_mcm_fch_menu_subtitle">
+    <text>Context Menu Settings</text>
+  </string>
+
+  <string id="ui_mcm_fch_roastAll">
+    <text>Show "Roast All" / "Boil All" Buttons</text>
+  </string>
+
+  <string id="ui_mcm_fch_roastAll_desc">
+    <text>Choose to show "roast all" and "boil all" context menu items always, never, or only when right clicking multiple-item stacks.</text>
+  </string>
+
+  <string id="ui_mcm_fch_emptyAll">
+    <text>Show "Empty All" Button</text>
+  </string>
+
+  <string id="ui_mcm_fch_emptyAll_desc">
+    <text>Choose to show a "empty all" context menu item always, never, or only when right clicking multiple-item stacks.</text>
+  </string>
+
+  <string id="ui_mcm_lst_never">
+    <text>Never</text>
+  </string>
+
+  <string id="ui_mcm_lst_always">
+    <text>Always</text>
+  </string>
+
+  <string id="ui_mcm_lst_multiple">
+    <text>Only for Multiple Items</text>
+  </string>
+
   <string id="ui_mcm_fch_traders_subtitle">
     <text>Настройки торговли</text>
   </string>
@@ -66,5 +98,21 @@
     %c[ui_gray_3]ХАРАКТЕРИСТИКИ:\n
 		%c[d_red] • %c[ui_gray_2] медленное применение (растворимые таблетки)\n
     </text>
+  </string>
+
+  <string id="st_empty">
+    <text>опорожнять</text>
+  </string>
+
+  <string id="st_empty_all">
+    <text>опорожнять все</text>
+  </string>
+
+  <string id="st_burn">
+    <text>гореть</text>
+  </string>
+
+  <string id="st_burn_all">
+    <text>гореть все</text>
   </string>
 </string_table>
