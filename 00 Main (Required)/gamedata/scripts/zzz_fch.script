@@ -146,7 +146,7 @@ end
 
 -- limit trader stocks
 function onTraderRestock(npc)
-  if not ui_mcm.get("fch/onTraderRestock") then
+  if not ui_mcm.get("fch/limitTraderStock") then
     return
   end
 
