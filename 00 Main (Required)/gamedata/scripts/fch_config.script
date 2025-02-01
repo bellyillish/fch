@@ -33,6 +33,3 @@ traderLimits = {
 boilSound  = sound_object("fillable_canteens\\boiling_water")
 emptySound = sound_object("fillable_canteens\\empty_water")
 roastSound = sound_object("fillable_canteens\\roasting")
-
--- max distance from fire to roast (squared)
-maxCampfireDistance = 10

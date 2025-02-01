@@ -306,6 +306,14 @@ end
 
 -- roasting
 if arszi_campfire_roasting then
+  -- campfires must be lit
+  function canRoast(item, ...)
+    if not arszi_campfire_roasting.get_nearby_lit_campfire() then
+      return false
+    end
+    return arszi_campfire_roasting.roast_condition_function(item, ...)
+  end
+
   function canRoastAll(item)
     local showType = ui_mcm.get("fch/roastAll")
 
@@ -313,8 +321,7 @@ if arszi_campfire_roasting then
       return false
     end
 
-    local campfire = bind_campfire.get_nearby_campfire(Config.maxCampfireDistance)
-    if not campfire then
+    if not arszi_campfire_roasting.get_nearby_lit_campfire() then
       return false
     end
 
@@ -376,14 +383,14 @@ if arszi_campfire_roasting then
   Functor.remove_functor("haruka_roast")
   Functor.remove_functor("haruka_roast_all")
 
-  Functor.add_functor("xharuka_roast",
-    arszi_campfire_roasting.roast_condition_function,
+  Functor.add_functor("haruka_roast",
+    canRoast,
     arszi_campfire_roasting.roast_name_function,
     nil,
     useRoast
   )
 
-  Functor.add_functor("xharuka_roast_all",
+  Functor.add_functor("haruka_roast_all",
     canRoastAll,
     arszi_campfire_roasting.roast_all_name_function,
     nil,
