@@ -150,26 +150,35 @@ function onTraderRestock(npc)
     return
   end
 
-  local economy = game_difficulties.get_eco_factor("type")
-  local counts  = {}
+  CreateTimeEvent(npc:id(), "fch_limit_trader_stock", 0.25, function(id)
+    local economy = game_difficulties.get_eco_factor("type")
+    local npc     = level.object_by_id(id)
+    local counts  = {}
 
-  npc:iterate_inventory(function(_, item)
-    local name   = item:section()
-    local limits = Config.traderLimits[name]
-
-    if not (limits and limits[economy]) then
-      return
+    if not npc then
+      return true
     end
 
-    counts[name] = counts[name]
-      and counts[name] + 1
-      or  1
+    npc:iterate_inventory(function(_, item)
+      local name   = item:section()
+      local limits = Config.traderLimits[name]
 
-    -- despawn if over the limit
-    if counts[name] > limits[economy] then
-      alife_release_id(item:id())
-    end
-  end)
+      if not (limits and limits[economy]) then
+        return
+      end
+
+      counts[name] = counts[name]
+        and counts[name] + 1
+        or  1
+
+      -- despawn if over the limit
+      if counts[name] > limits[economy] then
+        alife_release_id(item:id())
+      end
+    end)
+
+    return true
+  end, npc:id())
 end
 
 
