@@ -33,35 +33,35 @@
   </string>
 
   <string id="ui_mcm_fch_menu_subtitle">
-    <text>Context Menu Settings</text>
+    <text>Настройки контекстного меню</text>
   </string>
 
   <string id="ui_mcm_fch_roastAll">
-    <text>Show "Roast All" / "Boil All" Buttons</text>
+    <text>Показывать кнопки "жарить всё" / "вскипятить всё"</text>
   </string>
 
   <string id="ui_mcm_fch_roastAll_desc">
-    <text>Choose to show "roast all" and "boil all" context menu items always, never, or only when right clicking multiple-item stacks.</text>
+    <text>Выберите когда показывать кнопки "жарить всё" / "всипятить всё" в контекстном меню.</text>
   </string>
 
   <string id="ui_mcm_fch_emptyAll">
-    <text>Show "Empty All" Button</text>
+    <text>Показывать кнопку "опустошить все"</text>
   </string>
 
   <string id="ui_mcm_fch_emptyAll_desc">
-    <text>Choose to show a "empty all" context menu item always, never, or only when right clicking multiple-item stacks.</text>
+    <text>Выберите когда показывать кнопку "опустошить все" в контекстном меню.</text>
   </string>
 
   <string id="ui_mcm_lst_never">
-    <text>Never</text>
+    <text>Никогда</text>
   </string>
 
   <string id="ui_mcm_lst_always">
-    <text>Always</text>
+    <text>Всегда</text>
   </string>
 
   <string id="ui_mcm_lst_multiple">
-    <text>Only for Multiple Items</text>
+    <text>Только для нескольких предметов</text>
   </string>
 
   <string id="ui_mcm_fch_traders_subtitle">
@@ -101,18 +101,18 @@
   </string>
 
   <string id="st_empty">
-    <text>опорожнять</text>
+    <text>опустошить</text>
   </string>
 
   <string id="st_empty_all">
-    <text>опорожнять все</text>
+    <text>опустошить все</text>
   </string>
 
   <string id="st_burn">
-    <text>гореть</text>
+    <text>вскипятить</text>
   </string>
 
   <string id="st_burn_all">
-    <text>гореть все</text>
+    <text>вскипятить все</text>
   </string>
 </string_table>
