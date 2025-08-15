@@ -83,36 +83,36 @@
 
   <string id="st_dirty_water_descr">
     <text>Военная фляга, наполненная грязной водой. При желании можно сделать ее более безопасной для питья, прокипятив.\n \n
-    %c[ui_gray_3]ХАРАКТЕРИСТИКИ:\n
+    %c[ui_gray_3]СВОЙСТВА:\n
 		%c[d_blue] • %c[ui_gray_2] напиток\n</text>
   </string>
 
   <string id="st_boiled_water_descr">
     <text>Военная фляга, наполненная кипяченой водой. При желании можно сделать ее полностью безопасной для питья, использовав очищающие таблетки.\n \n
-    %c[ui_gray_3]ХАРАКТЕРИСТИКИ:\n
+    %c[ui_gray_3]СВОЙСТВА:\n
 		%c[d_blue] • %c[ui_gray_2] напиток\n</text>
   </string>
 
   <string id="st_akvatab2_descr">
     <text>Небольшой пластиковый пакетик с таблетками, предназначенный для обеззараживания воды.\n \n
-    %c[ui_gray_3]ХАРАКТЕРИСТИКИ:\n
+    %c[ui_gray_3]СВОЙСТВА:\n
 		%c[d_red] • %c[ui_gray_2] медленное применение (растворимые таблетки)\n
     </text>
   </string>
 
   <string id="st_empty">
-    <text>опустошить</text>
+    <text>Опустошить</text>
   </string>
 
   <string id="st_empty_all">
-    <text>опустошить все</text>
+    <text>Опустошить все</text>
   </string>
 
   <string id="st_burn">
-    <text>вскипятить</text>
+    <text>Вскипятить</text>
   </string>
 
   <string id="st_burn_all">
-    <text>вскипятить все</text>
+    <text>Вскипятить все</text>
   </string>
 </string_table>
